@@ -6,9 +6,11 @@ Can CSS fulfill CERN's solid needs:
 
 *explain and define concept that are needed for the understanding of the later*
 
+SEE [./src/context.md.pdf](./src/context.md.pdf]
+
   - linked data ( req for componentsjs )
   - turtle, triple RDF
-  - what is solid SEE [./src/solid_description.md.pdf](./src/solid_description.md.pdf]
+  - what is solid 
     - what is an IDP
     - what is a Pod
     - what is a solid app ( internal, external, pod based )
