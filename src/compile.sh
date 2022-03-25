@@ -1,4 +1,4 @@
-for f in $(ls *.md)
+for f in $@
 do
-  pandoc -s -o "$f.pdf" "$f"
+  pandoc --toc -s -o "../pdf/$f.pdf" "$f"
 done
