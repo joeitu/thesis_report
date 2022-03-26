@@ -1,3 +1,4 @@
+
 <!-- # inbox
  -> issue after test:
   - talk about pim storage
@@ -6,8 +7,11 @@
   - re-read the related github issue
  -->
 
+## Registration page improvement
 
-## Problem description:
+In this chapter, we will talk about the easy-token component. Easy-token is a component we build to facilitate the registration of new users already in possession of a WebID.
+
+### Problem description:
 
 As we stated previously, SCS  is a recent software, and some of its parts - even if functioning - still lack some user-friendliness. One clear example of this statement has been experienced early in the thesis when testing the registration process.
 
@@ -56,7 +60,7 @@ The former flow also makes strong assumptions that the user knows a pod browser 
 Beside local testing environment, it would be unsage to remove the token for the reason explained previously. Therefore, a new login interaction needed to be designed.  -->
 
 
-## Design
+### Design
 
 To tackle the problem formerly defined, we designed a new login interaction. We stated the following principle to base our new user interaction:
 
@@ -81,9 +85,9 @@ All the rest is taken care of in the background by the script. In parallel, the 
 
 <!-- {TODO should just be a button "verify my webid"} -->
 
-## Implementation
+### Implementation
 
-### Description of the javascript logic
+#### Description of the javascript logic
 
  To implement the former design, we used Inrupt's solid client browser authentification library[^solid-auth-lib] and Solid client library[^solid-client-lib]. Both are client-side javascript libraries. The first one handles the authentification to a solid pod, and the second performs basic CRUD action to a Pod once authenticated with the first library. 
 
@@ -93,11 +97,11 @@ Our implementation consists of 3 main functions:
  1. fetch token function
  1. the add_token function
 
-##### 1. the login
+###### 1. the login
 
 The login function relies mainly on the Inrupt authentication library. Once called, it will redirect the user to their IDP. Once the user has been authenticated on its IDP ( usually using an email/password credential, but other methods can be used), the IDP redirects the user back to the sign-up page, which now benefits from a token stored in the browser local storage. The token can be used by Inrupt's client library to edit the user WebID document with authenticated CRUD action.
 
-##### 2. the fetch token function
+###### 2. the fetch token function
 
 The fetch function's primary goal is to get the verification token.
 With the current state of SCS, the only way to get the verification token is to make a failed login attempt. After verifying that all the field of the sign-up form has been duly completed  the registration page will then check if an "oidcIssuerRegistrationToken" exist on the user WebID document. If not, and this is the case for each first sign-up attempt, SCS will return an error stipulating that a triple needs to be added to the WebID document with the token's value.
@@ -107,12 +111,12 @@ In other words, at the current stage of SCS, the only way to get the verificatio
 
 
 
-##### 3. the add_token function
+###### 3. the add_token function
 
 After successfully logging in and getting the verification token, the `add_token` function has everything it needs to add the verification token to the user's WebID document.
 
 
-### Description of the HTML user interface
+#### Description of the HTML user interface
 In the HTML part, we used the agile software development methodology. Therefore we went through a few iterations before achieving its final form. We first delivered a minimalistic prototype, producing short and incremental iterations. For each one, we would get face-to-face feedback with the "client" ( here, the client was represented by Maria Dimou, my CERN's supervisor ). We asked the user to test the new feature on each iteration by creating an account with an external WebID. We will describe the first and final iteration of this agile process. 
 
 <!-- TODO: add ref agile methodologies -->
@@ -152,7 +156,7 @@ We still display an input text field with the value of the WebID for convenience
 
 <!-- {TODO: after success, the user has proven they own the WebID, can finish fillup the registration form, and will successfully sign up with their external WebID} -->
 
-### Component.js configuration
+#### Component.js configuration
 
 If we first build this new registration page by directly editing SCS' source code, we quickly decided to take advantage of components.js' dependency injection library and refactor it as an independent component. Doing so, anyone who wants to add our new sign-up page to their SCS instance has to change a few lines in their SCS config file instead of merging two code bases. We will explain how the component has been designed.
 <!-- ( REDO) -->

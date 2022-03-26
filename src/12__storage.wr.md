@@ -2,10 +2,11 @@
 <!-- test localhost to avoid internet conecction noise -->
 <!-- TODO test at CERN -->
 
-###  File storage
+##  File storage
+
+In this part, we will discuss the possible option to store data with CSS, and after a few tests, we will why we choose to store data as files. 
 
 Currently, CSS allows two options from user data storage:
-
   - RAM-based
   - file-based
 

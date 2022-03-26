@@ -6,11 +6,11 @@
 SCS is a free and open-source software under MIT license, which means anyone with the necessary skills can contribute to the original project source code. Therefore, the community dynamics around the software greatly influence the software itself and the experience of developers working with it. This chapter will review the open-source quality of this software and, in particular, its community dynamics. After quickly talking about its licensing, we will analyze its community dynamics.
 <!-- REVIEW IF STILL CORRECT -->
 
-## MIT licensing
+### MIT licensing
 
  The MIT license is one of the most popular permissive licenses<!-- [1] -->. A permissive licensing means little restrictions on how the software can be used, modified, and redistributed. In addition, it allows the software to have high license compatibility, meaning that it can easily be distributed with software under other licensing, including proprietary licenses.
 
-## SCS open source community
+### SCS open source community
 
 *Hypothesis*
 

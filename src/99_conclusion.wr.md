@@ -13,7 +13,7 @@ Conclustion
 We have shown that this ecosystem lacks maturity. Nevertheless, as community and enthusiasm grow around Solid and its community server, more components and UIs should be available for CSS, from which CERN could benefice. 
 SCS is still a young software made for experimental purposes, but it has all the potential to mature from experimental software to a production-ready solution.
 
- Currently, a UI still needs to be found for CERN's CSS instance. Two options are presented to the CERN, either use already existing UI, even if it needs some work to fix compatibility issues. For each UIs, we found the root cause of the issue in the [TODO UI chapter] ). The option to build its own UI is also available, and we have a simple UI to ease the bootstrapping of such an initiative.
+ Currently, a UI still needs to be found for CERN's CSS instance. Two options are presented to the CERN, either use already existing UI, even if it needs some work to fix compatibility issues. For each UIs, we found the root cause of the issue in the UI chapter<!-- [TODO UI chapter] --> ). The option to build its own UI is also available, and we have a simple UI to ease the bootstrapping of such an initiative.
 
 As the most prominent international scientific organization and the birthplace of the Web, CERN's notoriety in new technologies is not to be proven. However, by adopting qualitative software such as CSS as a Solid server, CERN will hold to its reputation.
 

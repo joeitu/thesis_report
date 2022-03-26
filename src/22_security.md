@@ -1,3 +1,5 @@
+# Phishing risk of Pod hosting HTML files
+
 The main goal of this thesis has never been to make an exhaustive security audit of the Community Solid Server. Nevertheless, our close work on CSS mechanisms has naturally led us to investigate the security aspect of some of its interactions. In particular, we tested how CSS could be prone to phishing attacks by using a fake look-alike login and registration webpage hosted on a trustable URL.
 
 *Context*
@@ -37,9 +39,9 @@ We also confronted CSS to homograph attack - a kind of homoglyph attack known as
 
 *Discution*
 
-The consequent security impact is highly relative to whom the app is exposed. If the CERN's CSS is only available inside CERN's network and accessible to users who have VPN access to the network, it will not be as high as if the application is exposed to the whole world. When deploying an application to CERN's openshift platform, it will - by default - restrict its access to CERN's network. Assuming that all CERN's users can be considered trusted used, deploying a CSS instance on CERN's openshift platform should not compromise CERN's security. [TODO add ref already allowed to created website]
+The consequent security impact is highly relative to whom the app is exposed. If the CERN's CSS is only available inside CERN's network and accessible to users who have VPN access to the network, it will not be as high as if the application is exposed to the whole world. When deploying an application to CERN's openshift platform, it will - by default - restrict its access to CERN's network. Assuming that all CERN's users can be considered trusted used, deploying a CSS instance on CERN's openshift platform should not compromise CERN's security. <!-- [TODO add ref already allowed to created website] -->
 
-However, CERN's openshift platform also allows exposing the instance publicly. It can be done by replacing the application router's `ip_whitelist` with an empty string. An easy way of doing so is by adding the following line in our DevOps script in section [TODO add ref], before the `oc start-build` command.
+However, CERN's openshift platform also allows exposing the instance publicly. It can be done by replacing the application router's `ip_whitelist` with an empty string. An easy way of doing so is by adding the following line in our DevOps script in section <!-- [TODO add ref] -->, before the `oc start-build` command.
 
 ```bash
 oc annotate route $APP_NAME \
@@ -90,7 +92,7 @@ A less restrictive solution would be to create all users with defined username, 
 
 *Conclusion*
 
- This section confirms the intention of CSS authors[^CSSReadme]: CSS is built in priority for experimental purposes. However, this experiment also shows that thanks to componentsjs and CSS high modular capability, a solution can be easily implemented to tackle security issues. Finding one security issue in CSS default configuration does not imply that CSS is insecure by essence but by its default configuration. Work still needs to be done to build a hardened-secure configuration[ TODO REWRITE]. It does not seem unlikely that a secure-hardened CSS recipe will appear in the future. Until then, it is recommended for CERN to use CSS for its current purpose: experimentation; and the future Solid developer at CERN should consider particular attention regarding whom the application is exposed to and what data is hosted on the Pods.
+ This section confirms the intention of CSS authors[^CSSReadme]: CSS is built in priority for experimental purposes. However, this experiment also shows that thanks to componentsjs and CSS high modular capability, a solution can be easily implemented to tackle security issues. Finding one security issue in CSS default configuration does not imply that CSS is insecure by essence but by its default configuration. Work still needs to be done to build a hardened-secure configuration<!-- [ TODO REWRITE] -->. It does not seem unlikely that a secure-hardened CSS recipe will appear in the future. Until then, it is recommended for CERN to use CSS for its current purpose: experimentation; and the future Solid developer at CERN should consider particular attention regarding whom the application is exposed to and what data is hosted on the Pods.
 
 <!--  TODO: OK for CERN profile
  -->
