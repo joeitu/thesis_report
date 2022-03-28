@@ -7,7 +7,7 @@
   - re-read the related github issue
  -->
 
-## Registration page improvement
+## Easy-token: a improved registration page component
 
 In this chapter, we will talk about the easy-token component. Easy-token is a component we build to facilitate the registration of new users already in possession of a WebID.
 
@@ -33,7 +33,11 @@ For legitimate security reasons, the user wanting to create a Pod with an existi
 
 To prove that the user is the owner of the claimed external WebID, SCS asks to add a verification token to the user's WebID document. By proving that they have modification rights to the WebID document, they prove that the document belongs to them. 
 
-When creating a Pod with an external WebID, SCS will return a `400 - BadRequestHttpError` asking the user to add a given verification token, see figure \ref{token-error} 
+When creating a Pod with an external WebID, SCS will return a `400 - BadRequestHttpError` asking the user to add a given verification token, see figure \ref{token-error} . The error message is the following:
+
+ > Error: Verification token not found. Please add the RDF triple `<https://cacao.solidcommunity.net/profile/card#me>` `<http://www.w3.org/ns/solid/terms#oidcIssuerRegistrationToken>` `"276c3e90-1af4-437d-b46f-a5240933ce99".` to the WebID document at https://cacao.solidcommunity.net/profile/card to prove it belongs to you. You can remove this triple again after validation.
+
+As we can see, the error message refers to technical terms that are probably unfamiliar to newcomers.
 
 ![The error message showed by SCS highlighted in red. SCS does not give the user further help on how to achieve that task. \label{token-error} ](./assets/token.png){width=60%}
 
@@ -89,6 +93,7 @@ All the rest is taken care of in the background by the script. In parallel, the 
 
 #### Description of the javascript logic
 
+
  To implement the former design, we used Inrupt's solid client browser authentification library[^solid-auth-lib] and Solid client library[^solid-client-lib]. Both are client-side javascript libraries. The first one handles the authentification to a solid pod, and the second performs basic CRUD action to a Pod once authenticated with the first library. 
 
 Our implementation consists of 3 main functions:
@@ -97,27 +102,29 @@ Our implementation consists of 3 main functions:
  1. fetch token function
  1. the add_token function
 
-###### 1. the login
+###### 1. the `login` function
 
 The login function relies mainly on the Inrupt authentication library. Once called, it will redirect the user to their IDP. Once the user has been authenticated on its IDP ( usually using an email/password credential, but other methods can be used), the IDP redirects the user back to the sign-up page, which now benefits from a token stored in the browser local storage. The token can be used by Inrupt's client library to edit the user WebID document with authenticated CRUD action.
 
-###### 2. the fetch token function
+###### 2. the `fetch_token` function
 
 The fetch function's primary goal is to get the verification token.
-With the current state of SCS, the only way to get the verification token is to make a failed login attempt. After verifying that all the field of the sign-up form has been duly completed  the registration page will then check if an "oidcIssuerRegistrationToken" exist on the user WebID document. If not, and this is the case for each first sign-up attempt, SCS will return an error stipulating that a triple needs to be added to the WebID document with the token's value.
+With the current state of SCS, the only way to get the verification token is to make a failed login attempt. After verifying that all the field of the sign-up form has been duly completed,  the registration page will then check if an "oidcIssuerRegistrationToken" exist on the user WebID document. If not, and this is the case for each first sign-up attempt, SCS will return an error stipulating that a triple needs to be added to the WebID document with the token's value.
 <!-- {and if SCS config is set to token verification,} -->
 
 In other words, at the current stage of SCS, the only way to get the verification token is to fail a sign-up attempt. Therefore, two registration attempts are needed to register with a external verified WebID: a first one to get the token and a second one after the token has been added to the WebID document. 
 
 
 
-###### 3. the add_token function
+###### 3. the `add_token` function
 
 After successfully logging in and getting the verification token, the `add_token` function has everything it needs to add the verification token to the user's WebID document.
 
 
 #### Description of the HTML user interface
-In the HTML part, we used the agile software development methodology. Therefore we went through a few iterations before achieving its final form. We first delivered a minimalistic prototype, producing short and incremental iterations. For each one, we would get face-to-face feedback with the "client" ( here, the client was represented by Maria Dimou, my CERN's supervisor ). We asked the user to test the new feature on each iteration by creating an account with an external WebID. We will describe the first and final iteration of this agile process. 
+
+
+In the HTML part, we used the agile software development methodology. Therefore we went through a few iterations before achieving its final form. We first delivered a minimalistic prototype, producing short and incremental iterations. For each one, we would get face-to-face feedback with the "client" ( here, the client was represented by Maria Dimou, CERN-Solid collaboration manager at CERN ). We asked the user to test the new feature on each iteration by creating an account with an external WebID. We will describe the first and final iteration of this agile process. 
 
 <!-- TODO: add ref agile methodologies -->
   
@@ -140,7 +147,7 @@ Testing this implementation with a CERN user has raised a few tickets:
 In the latest and current iteration, we addressed all the three issues with the following patches respectively:
 
 
- 1. After the successful login to the ID Provider, the button turns green, its text change to "Verified" to signify to the user that our script did add the verification token to their WebID document, see figure \ref{it2-after-verif} . The change in color and text should indicate  that there is no more call for action.Furthermore, the button also becomes unclickable to prevent the user from clicking it twice, preventing the app from malfunctioning..
+ 1. After the successful login to the ID Provider, the button turns green, its text change to "Verified" to signify to the user that our script did add the verification token to their WebID document, see figure \ref{it2-after-verif} . The change in color and text should indicate  that there is no more call for action. Furthermore, the button also becomes unclickable to prevent the user from clicking it twice, preventing the app from malfunctioning..
 <!-- TODO REWRITE -->
 2. We added a picture indicating which permission to give when the IDP asks for permission scope, see figure \ref{it2-after-verif} .
  3. We change the input text for an editable dropdown: it allows to select from a list of options or enter another one in a text field to let the users choose the host of their WebID, see figure \ref{it2_drop_down} .
@@ -160,6 +167,7 @@ We still display an input text field with the value of the WebID for convenience
 
 If we first build this new registration page by directly editing SCS' source code, we quickly decided to take advantage of components.js' dependency injection library and refactor it as an independent component. Doing so, anyone who wants to add our new sign-up page to their SCS instance has to change a few lines in their SCS config file instead of merging two code bases. We will explain how the component has been designed.
 <!-- ( REDO) -->
+<!-- TODO add illustration componetsjs vs source code -->
 
 First, we extracted all our editing files into a new folder. This folder contains five sub-folders:
 
@@ -169,7 +177,7 @@ First, we extracted all our editing files into a new folder. This folder contain
   1. `templates/` with the alternative registration HTML page
   1. `config/` holds the `components.js` required config files that we will import from the main SCS' config file. It essentially has two things: <!-- TODO: REWRITE -->
       1. The first creates a `StaticAssetHandler` class that points to our `scripts/` folder. It will make the script accessible through an URL and therefore importable from our HTML file.
-      1. The second creates a `BasicInteractionRoute` that will make SCS the `/idp/register/` endpoint to our sign-up HTML page in the `template/` folder.
+      1. The second creates a `BasicInteractionRoute` that will point the `/idp/register/` endpoint to our sign-up HTML page in the `template/` folder.
 
 Then we need to edit the root config file to import the two former defined files instead of the ones from the default configuration. 
 

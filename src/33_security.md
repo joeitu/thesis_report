@@ -4,11 +4,11 @@ The main goal of this thesis has never been to make an exhaustive security audit
 
 *Context*
 
-A CSS Pod allows users to store files, particularly HTML files. If these files are publicly available through the ACL, CSS will serve them with the appropriate `content-type` header, making the browser interpret them not as text files but as client-side web applications. Unfortunately, if this feature allows users to host their website on their Pod, it can also have a negative counterpart if used with evil intention.
+A CSS Pod allows users to store files, particularly HTML files. If these files are publicly available through the ACL, CSS will serve them with the appropriate `content-type` header, making the browser interpret them not as text files but as client-side web applications, see figure \ref{podWebAppExample}. Unfortunately, if this feature allows users to host their website on their Pod, it can also have a negative counterpart if used with evil intention.
 
 <!-- TODO: add url to webpage is podurl+pathtofile-->
 
-![An example of a user webpage hosted in a Pod on a local CSS instance](./assets/illu_sec.png)
+![An example of a user webpage hosted in a Pod on a local CSS instance  \label{podWebAppExample} ](./assets/illu_sec.png)
 
 
 *Method*
@@ -23,9 +23,9 @@ Finally, assuming that Eve has access to a chat or users' email addresses, it wo
 <!-- see figure \label{LabelName}
  -->
 
-*CSS test*
+*Tests*
 
- Testing this attack with CSS gives us good results. CSS does not have a banlist for username. Therefore,  we could create accounts with any arbitrary string such as `password` or `account` and others.
+ Testing this attack with CSS gives us good results. CSS does not have a banlist for username. Therefore,  we could create accounts with any arbitrary string such as `password`, `account` and others.
 
  Moreover, we were able to create accounts close to the `idp` keyword. `idp` is in front of the URL path of the login and the registration page ( `/idp/registration/` and `/idp/login/` ). We used different variation techniques such as homoglyph ( replacing a letter with a similar one: `idp` to `ldp` ) and transposition ( swaps two letters: `idp` to `ipd` ). By creating a `register` and `login` folder in the Pod named `ipd`; and then hosting an evil registration page on an `index.html` file, we were able to host a webpage under the URL `http://my-css-instance.net/ipd/register/` instead of the official `http://my-css-instance.net/idp/register/` ( the only difference is the permutation of the `p` and `d` in the `idp` part of the URL ).
 
@@ -39,17 +39,22 @@ We also confronted CSS to homograph attack - a kind of homoglyph attack known as
 
 *Discution*
 
-The consequent security impact is highly relative to whom the app is exposed. If the CERN's CSS is only available inside CERN's network and accessible to users who have VPN access to the network, it will not be as high as if the application is exposed to the whole world. When deploying an application to CERN's openshift platform, it will - by default - restrict its access to CERN's network. Assuming that all CERN's users can be considered trusted used, deploying a CSS instance on CERN's openshift platform should not compromise CERN's security. <!-- [TODO add ref already allowed to created website] -->
+The consequent security impact is highly relative to whom the app is exposed. If the CERN's CSS instance is only available inside CERN's network and accessible to users who have VPN access to the network, it will not be as high as if the application is exposed to the whole world. When deploying an application to CERN's openshift platform, it will - by default - restrict its access to CERN's network. Assuming that all CERN's users can be considered trusted used, deploying a CSS instance on CERN's openshift platform should not compromise CERN's security. <!-- [TODO add ref already allowed to created website] -->
 
-However, CERN's openshift platform also allows exposing the instance publicly. It can be done by replacing the application router's `ip_whitelist` with an empty string. An easy way of doing so is by adding the following line in our DevOps script in section <!-- [TODO add ref] -->, before the `oc start-build` command.
+However, CERN's openshift platform also allows exposing the instance publicly. It can be done by replacing the application router's `ip_whitelist` with an empty string. An easy way of doing so is by adding the following line in our script in the DevOps chapter <!-- [TODO add ref] -->, before the `oc start-build` command.
 
-```bash
-oc annotate route $APP_NAME \
+<!-- [@lst:my_sec] -->
+<!-- ~~~{#lst:captionAttr .bash  caption="Removing CERN's IP whitelist restriction" label="my_sec"}
+
+*Removing CERN's IP whitelist restriction*
+
+~~~bash
+--> oc annotate route $APP_NAME \
   --overwrite haproxy.router.openshift.io/ip_whitelist=''
+~~~
 
-```
 
- Then, we allow anyone to host a web page, therefore to  spoof the CSS web page and any of CERN's registration/login page under the `cern.ch` domain name and TLS certificate. In that case, the security risk should be taken seriously. In the following, we will discuss three potential solutions. Only the first one correctly answers the security risk, and the two last offer only a partial solution. 
+ Then, we allow anyone to host a web page, therefore to  spoof the CSS web page and any of CERN's registration/login page under the `cern.ch` domain name and TLS certificate. In that case, the security risk should be taken seriously. In the following, we will discuss three potential solutions. From the most secure solution to the less secure:
 
   1. Do not allow CSS to serve webpage.
 
@@ -59,8 +64,12 @@ The most radical solution is to disable the rendering of web pages from CSS. Is 
 
 A less restrictive solution would be to create all users with defined username, podname and a temporari password. It can be automated using CSS' API with the following request. 
 
- ```bash
+<!-- ```{#lst:captionAttr .bash caption="Create a new user from CSS' API" label="my_sec"}
+ -->
 
+*Create a new user from CSS' API* 
+
+```bash
  curl -i  -H "Accept: application/json"
           -H "Content-Type: application/json"
           -X POST
@@ -73,9 +82,9 @@ A less restrictive solution would be to create all users with defined username, 
                "createPod": "on"}`
           http://my-css-instance.net/idp/register/
 
- ```
+```
 
-   This solution still allows users to host their webpage but will not allow them to create misleading URLs. 
+   This solution still allows users to host their webpage but it allows the sysadmin to control the creation of new accounts. Plus, it will not allow them to create misleading URLs.
 
   3. Create a banlist for Pod names
 
@@ -92,7 +101,7 @@ A less restrictive solution would be to create all users with defined username, 
 
 *Conclusion*
 
- This section confirms the intention of CSS authors[^CSSReadme]: CSS is built in priority for experimental purposes. However, this experiment also shows that thanks to componentsjs and CSS high modular capability, a solution can be easily implemented to tackle security issues. Finding one security issue in CSS default configuration does not imply that CSS is insecure by essence but by its default configuration. Work still needs to be done to build a hardened-secure configuration<!-- [ TODO REWRITE] -->. It does not seem unlikely that a secure-hardened CSS recipe will appear in the future. Until then, it is recommended for CERN to use CSS for its current purpose: experimentation; and the future Solid developer at CERN should consider particular attention regarding whom the application is exposed to and what data is hosted on the Pods.
+ This section confirms the intention of CSS authors[^CSSReadme]: CSS is built in priority for experimental purposes. However, this investigation also shows that thanks to componentsjs and CSS high modular capability, a solution can be easily implemented to tackle security issues. Finding one security issue in CSS default configuration does not imply that CSS is insecure by essence but only by its default configuration. Work still needs to be done to build a hardened-secure configuration<!-- [ TODO REWRITE] -->. It does not seem unlikely that a secure-hardened CSS recipe will appear in the future. Until then, it is recommended for CERN to use CSS for its current purpose: experimentation; and the future Solid developer at CERN should consider particular attention regarding whom the application is exposed to and what data is hosted on the Pods.
 
 <!--  TODO: OK for CERN profile
  -->
