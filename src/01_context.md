@@ -1,6 +1,9 @@
 
-<!-- TODO explain CSS != Cascading..
+<!--
+TODO explain CSS != Cascading..
 TODO define recipe
+TODO define RDF
+
  -->
 
 # Context and terminology
@@ -55,14 +58,14 @@ Those specifications are developed by the World Wide Web Consortium (W3C), an or
 
 ## Solid Community Server, an implementation of the Solid specifications
 
-The Community Solid Server is an open-source Solid Server - i.e. a  Pod and Identity Provider - that implements Solid Specification. It can also deliver WebIDs. Currently, only two implementations fulfill the Solid-specification: CSS and NSS ( Node Solid Server). CSS can be considered a new replacement for the legacy NSS that power `https://solidcommunity.net`, currently the most used solid server. CSS is a newborn software under active development: version 1.0 was released in the symbolic month of August 2021, exactly 30 years after the World Wide Web first webpage, and version 3.0 was released the 23 February 2022 [^css-release]. Inrupt financially support IDLab from Gent University (Belgium) to build the software <!-- TODO already said -->. It's copyrighted by Inrupt and IMEC research and development hub under the MIT license. Built in a modular fashion, it has been designed for researchers and developers who want to test Solid App and/or design new features and experience with Solid[^css-readme]. Such modularity is empowered using components.js, a dependency injection framework at the core of CSS.
+The Community Solid Server is an open-source Solid Server - i.e. a  Pod and Identity Provider - that implements Solid Specification. It can also deliver WebIDs. Currently, only two implementations fulfill the Solid-specification: CSS and NSS ( Node Solid Server). CSS can be considered a new replacement for the legacy NSS behind `https://solidcommunity.net`, currently the most used solid server. CSS is a newborn software under active development: version 1.0 was released in the symbolic month of August 2021, exactly 30 years after the World Wide Web first webpage, and version 3.0 was released the 23 February 2022 [^css-release]. Inrupt financially support IDLab from Gent University (Belgium) to build the software <!-- TODO already said -->. It's copyrighted by Inrupt and IMEC research and development hub under the MIT license. Built in a modular fashion, it has been designed for researchers and developers who want to test Solid App and/or design new features and experience with Solid[^css-readme]. Such modularity is empowered using components.js, a dependency injection framework at the core of CSS.
 
 <!--     Four core contributors: Joachim Van Herwegen, Ruben Verborgh, Ruben Taelman, and Matthieu Bosquet.
     Copyrighted by Inrupt Inc. and imec and available under the MIT License
 Abbreviated CSS for now (might change in the future for CSS).
  -->
 
-## Component.js: a dependency injection that powers CSS modularity
+## Component.js: a dependency injection behind CSS modularity
 
 Component.js is a javascript dependency injection developed by CSS authors. A Dependency Injection (DI) implements a form of inversion of control, a programming principle where part of a program receives its execution flow from a framework. Dependency injection will dynamically create (inject) the dependencies between the different components of a computer program. Therefore, the program execution flow is expressed not only through static code but also dynamically assigned during execution. In particular, components.js lets us describe the dependencies between CSS components from a JSON configuration file. Even if the CSS authors have written components.js mainly to answer CSS needs, it has been built as a general-purpose dependency injection framework and can be used for other software.
 <!-- also used by digita proxy -->

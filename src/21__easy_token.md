@@ -1,21 +1,22 @@
 
 <!-- # inbox
  -> issue after test:
-  - talk about pim storage
-  - shoudl be a pim storage think in turtle webid
-  - spec not finish on that issue, current solid app just assume pod hosted on same url as webid, but they should respect the webid claim. Issue is that expose public pod address
-  - re-read the related github issue
+  - ✓ talk about pim storage
+  - ✓ shoudl be a pim storage think in turtle webid
+  - ✓ spec not finish on that issue, current solid app just assume pod hosted on same url as webid, but they should respect the webid claim. Issue is that expose public pod address
+  - ✓ re-read the related github issue
  -->
 
 ## Easy-token: a improved registration page component
 
-In this chapter, we will talk about the easy-token component. Easy-token is a component we build to facilitate the registration of new users already in possession of a WebID.
+In this chapter, we will talk about the easy-token component. In Solid servers, the Identity Provider and the Pod are decoupled. Therefore, it is possible to create only a Pod without WebID in the CSS registration page; and use the WebID from an external SolidServer. Easy-token is a component we build to facilitate the registration of new users already in possession of a WebID.
+<!-- TODO explain Pod with ext. webId -->
 
-### Problem description:
+### Motivation
 
-As we stated previously, SCS  is a recent software, and some of its parts - even if functioning - still lack some user-friendliness. One clear example of this statement has been experienced early in the thesis when testing the registration process.
+As we stated previously, CSS  is a recent software, and some of its parts - even if functioning - still lack some user-friendliness. One clear example has been experienced early in the thesis when testing the registration process.
 
-Data storage and identities are decoupled in the solid specification; hence when a user wants to create a pod on SCS, SCS registration will offer two options:
+Data storage and identities are decoupled in the solid specification; hence when a user wants to create a pod on CSS, CSS registration will offer two options:
 
  - create a Pod and create a new WebID as the Pod owner
  - create a Pod and set the owner to an already existing WebID
@@ -23,30 +24,30 @@ Data storage and identities are decoupled in the solid specification; hence when
 Since CERN has done previous experimental work with Solid[^indico-jan][^indico-lukas] some of CERN's users already have a WebID, mainly hosted on `https://solidcommunity.net`. Therefore, it was essential to allow those users to create an account with their existing WebID. 
 <!-- TODO: check with keycloak instance: use already existing WebID or need new one?
  -->
-<!--  After explaining the complexity of the default SCS registration process, we will describe the solution we design and its implementation and its tests.
+<!--  After explaining the complexity of the default CSS registration process, we will describe the solution we design and its implementation and its tests.
  -->
 
 
-<!-- {Furthermore, with the default configured SCS version, my CERN supervisor Maria Dimou was not able to create a Pod with here existing WebID}. We will, in the following, explain why this process is fastidious and how we decided to fix it {REDO too familiar}. 
+<!-- {Furthermore, with the default configured CSS version, my CERN supervisor Maria Dimou was not able to create a Pod with here existing WebID}. We will, in the following, explain why this process is fastidious and how we decided to fix it {REDO too familiar}. 
  -->
 For legitimate security reasons, the user wanting to create a Pod with an existing external WebID needs to prove that they are the owner of the given external WebID. Otherwise, an attacker would be able to create a Pod usurping someone else identity and un-allowing the actual owner of the WebID to create a Pod <!-- TODO verify that -->. The purpose is similar to the verification email we receive when we sign-up on a platform with our email address.
 
-To prove that the user is the owner of the claimed external WebID, SCS asks to add a verification token to the user's WebID document. By proving that they have modification rights to the WebID document, they prove that the document belongs to them. 
+To prove that the user is the owner of the claimed external WebID, CSS asks to add a verification token to the user's WebID document. By proving that they have modification rights to the WebID document, they prove that the document belongs to them. 
 
-When creating a Pod with an external WebID, SCS will return a `400 - BadRequestHttpError` asking the user to add a given verification token, see figure \ref{token-error} . The error message is the following:
+When creating a Pod with an external WebID, CSS will return a `400 - BadRequestHttpError` asking the user to add a given verification token, see figure \ref{token-error} . The error message is the following:
 
- > Error: Verification token not found. Please add the RDF triple `<https://cacao.solidcommunity.net/profile/card#me>` `<http://www.w3.org/ns/solid/terms#oidcIssuerRegistrationToken>` `"276c3e90-1af4-437d-b46f-a5240933ce99".` to the WebID document at https://cacao.solidcommunity.net/profile/card to prove it belongs to you. You can remove this triple again after validation.
+ > Error: Verification token not found. Please add the RDF triple `<https://alice.solidcommunity.net/profile/card#me>` `<http://www.w3.org/ns/solid/terms#oidcIssuerRegistrationToken>` `"276c3e90-1af4-437d-b46f-a5240933ce99".` to the WebID document at https://cacao.solidcommunity.net/profile/card to prove it belongs to you. You can remove this triple again after validation.
 
 As we can see, the error message refers to technical terms that are probably unfamiliar to newcomers.
 
-![The error message showed by SCS highlighted in red. SCS does not give the user further help on how to achieve that task. \label{token-error} ](./assets/token.png){width=60%}
+![The error message showed by CSS highlighted in red. CSS does not give the user further help on how to achieve that task. \label{token-error} ](./assets/token.png){width=60%}
 
 
 <!-- TODO: test Maira  -->
 
 Currently, the fastest way to add a token to a WebID document is by doing the following tasks:
 
-   - Copy the triple with the random token given in the SCS sign-up page
+   - Copy the triple with the random token given in the CSS sign-up page
    - open a new page,
    - use an external pod browser such as Penny
    - connect to their Pod through the pod browser
@@ -56,7 +57,7 @@ Currently, the fastest way to add a token to a WebID document is by doing the fo
 
 The former flow also makes strong assumptions that the user knows a pod browser solid app and knows how to add a triple to its WebID document
  As shown in the figure \ref{token-error}, besides being a tedious process, one needs to be well aware of concepts such as RDF tripe and pod architecture to understand the error message, which might not be the case for users with low experience with Solid.
-<!-- Therefore, such a sign-up procedure in addition to being long and complicated, would also discriminate users that do not have strong skills with solid, in other words, most of the people we can expect to use how CERN based SCS instance. -->
+<!-- Therefore, such a sign-up procedure in addition to being long and complicated, would also discriminate users that do not have strong skills with solid, in other words, most of the people we can expect to use how CERN based CSS instance. -->
  <!-- [Users from CERN were not able to set up the token themself, with reason.] -->
 
 
@@ -77,7 +78,7 @@ To achieve the former goals, we made the following design proposal:
 
  - A button is added to the sign-up page
  - The button redirects to the user ID Provider and ask them to login
- - Once logged in, they are automatically redirected to the SCS sign-up page; even if the user has left SCS sign-up page, the automatic redirection gives a seamless experience
+ - Once logged in, they are automatically redirected to the CSS sign-up page; even if the user has left CSS sign-up page, the automatic redirection gives a seamless experience
  - Now that we have authenticated the user, the script has the necessary authorization to write to the user's WebID document and add the verification token
  - The script adds the verification token to the user's WebID document.
 
@@ -88,6 +89,12 @@ All the rest is taken care of in the background by the script. In parallel, the 
 <!-- { TODO measure time adding token } -->
 
 <!-- {TODO should just be a button "verify my webid"} -->
+
+### Sequence diagram
+
+\
+![Sequence diagram of the easy-token component](./assets/et_diagram.png)
+\
 
 ### Implementation
 
@@ -109,10 +116,10 @@ The login function relies mainly on the Inrupt authentication library. Once call
 ###### 2. the `fetch_token` function
 
 The fetch function's primary goal is to get the verification token.
-With the current state of SCS, the only way to get the verification token is to make a failed login attempt. After verifying that all the field of the sign-up form has been duly completed,  the registration page will then check if an "oidcIssuerRegistrationToken" exist on the user WebID document. If not, and this is the case for each first sign-up attempt, SCS will return an error stipulating that a triple needs to be added to the WebID document with the token's value.
-<!-- {and if SCS config is set to token verification,} -->
+With the current state of CSS, the only way to get the verification token is to make a failed login attempt. After verifying that all the field of the sign-up form has been duly completed,  the registration page will then check if an "oidcIssuerRegistrationToken" exist on the user WebID document. If not, and this is the case for each first sign-up attempt, CSS will return an error stipulating that a triple needs to be added to the WebID document with the token's value.
+<!-- {and if CSS config is set to token verification,} -->
 
-In other words, at the current stage of SCS, the only way to get the verification token is to fail a sign-up attempt. Therefore, two registration attempts are needed to register with a external verified WebID: a first one to get the token and a second one after the token has been added to the WebID document. 
+In other words, at the current stage of CSS, the only way to get the verification token is to fail a sign-up attempt. Therefore, two registration attempts are needed to register with a external verified WebID: a first one to get the token and a second one after the token has been added to the WebID document. 
 
 
 
@@ -159,13 +166,13 @@ We still display an input text field with the value of the WebID for convenience
 
 ![ The final iteration after clicking the verification button \label{it2-after-verif} ](./assets/it2_after_verif.png){width=60%} 
 
-![ A convienent editable dropdown was also added \label{it2_drop_down} ](./assets/it2_drop_down.png){width=60%} 
-
+<!-- ![ A convienent editable dropdown was also added \label{it2_drop_down} ](./assets/it2_drop_down.png){width=60%} 
+ -->
 <!-- {TODO: after success, the user has proven they own the WebID, can finish fillup the registration form, and will successfully sign up with their external WebID} -->
 
 #### Component.js configuration
 
-If we first build this new registration page by directly editing SCS' source code, we quickly decided to take advantage of components.js' dependency injection library and refactor it as an independent component. Doing so, anyone who wants to add our new sign-up page to their SCS instance has to change a few lines in their SCS config file instead of merging two code bases. We will explain how the component has been designed.
+If we first build this new registration page by directly editing CSS' source code, we quickly decided to take advantage of components.js' dependency injection library and refactor it as an independent component. Doing so, anyone who wants to add our new sign-up page to their CSS instance has to change a few lines in their CSS config file instead of merging two code bases. We will explain how the component has been designed.
 <!-- ( REDO) -->
 <!-- TODO add illustration componetsjs vs source code -->
 
@@ -175,7 +182,7 @@ First, we extracted all our editing files into a new folder. This folder contain
   1. `src/` where we store our javascript source code. Using Webpack, all those source files will be compiled to: 
   1. `scripts/` which includes a minimized single javascript file that we will import into our HTML page.
   1. `templates/` with the alternative registration HTML page
-  1. `config/` holds the `components.js` required config files that we will import from the main SCS' config file. It essentially has two things: <!-- TODO: REWRITE -->
+  1. `config/` holds the `components.js` required config files that we will import from the main CSS' config file. It essentially has two things: <!-- TODO: REWRITE -->
       1. The first creates a `StaticAssetHandler` class that points to our `scripts/` folder. It will make the script accessible through an URL and therefore importable from our HTML file.
       1. The second creates a `BasicInteractionRoute` that will point the `/idp/register/` endpoint to our sign-up HTML page in the `template/` folder.
 
@@ -183,7 +190,7 @@ Then we need to edit the root config file to import the two former defined files
 
 <!-- # discution
 
-To avoid this double sign-up, a solution could be to modify the SCS server side code to send the client a verification token during page load and not after a fail attempt to sign up. However, this would makes the footprint and the scope of our module more ~impactfull ~important. Thanksfully, SCS offer an API that allow to register a new user through POST request. Therefore, the first failled attempt required to get the token can be done {TODO under the hood} by our script without the user noticing it. Even if that solution can seems hacky, it has the advantage to keep the scope of the module to the client side and does not require to modify server side code. Therefore the former solution has been ~prefered.
+To avoid this double sign-up, a solution could be to modify the CSS server side code to send the client a verification token during page load and not after a fail attempt to sign up. However, this would makes the footprint and the scope of our module more ~impactfull ~important. Thanksfully, CSS offer an API that allow to register a new user through POST request. Therefore, the first failled attempt required to get the token can be done {TODO under the hood} by our script without the user noticing it. Even if that solution can seems hacky, it has the advantage to keep the scope of the module to the client side and does not require to modify server side code. Therefore the former solution has been ~prefered.
 
  -->
 [^indico-jan]:   TODO
