@@ -7,9 +7,9 @@
   - ✓ re-read the related github issue
  -->
 
-## Easy-token: a improved registration page component
+## Easy-token: an improved registration page component
 
-In this chapter, we will talk about the easy-token component. In Solid servers, the Identity Provider and the Pod are decoupled. Therefore, it is possible to create only a Pod without WebID in the CSS registration page; and use the WebID from an external SolidServer. Easy-token is a component we build to facilitate the registration of new users already in possession of a WebID.
+In this chapter, we discuss the easy-token component. In Solid servers, the Identity Provider and the Pod are decoupled. Therefore, it is possible to create only a Pod in the CSS registration page; and use the WebID from an external Solid Server. Easy-token is a component we build to facilitate the registration of new users already in possession of a WebID.
 <!-- TODO explain Pod with ext. webId -->
 
 ### Motivation
@@ -165,6 +165,8 @@ We still display an input text field with the value of the WebID for convenience
 ![ The final iteration before clicking the verification button \label{it2_before_verif} ](./assets/it2_before_verif.png){width=60%} 
 
 ![ The final iteration after clicking the verification button \label{it2-after-verif} ](./assets/it2_after_verif.png){width=60%} 
+
+\
 
 <!-- ![ A convienent editable dropdown was also added \label{it2_drop_down} ](./assets/it2_drop_down.png){width=60%} 
  -->

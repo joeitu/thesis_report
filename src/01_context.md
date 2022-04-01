@@ -8,8 +8,7 @@ TODO define RDF
 
 # Context and terminology
 
-In this chapter, we will describe the principal elements needed to understand the context and motivation of this thesis. First, we will go through a quick recall of the history of the web and its current challenges. Then we will talk about the motivation behind Solid and describe its main components. 
-
+In this chapter, we describe the principal elements needed to understand the context and motivation of this thesis. First, we go through a quick recall of the history of the web and its current challenges. Then we explain the motivation behind Solid and describe its main components.
 
 ## History and current state of the World Wide Web
 
@@ -22,7 +21,7 @@ On 1991 August 6, the first website available on the world wide web, "http://inf
 
 <!-- ![The first website *http://info.cern.ch*](./2-solid_description.md.d/fig_1.jpg){ width=50% } -->
 
-Today's web might be far from the decentralized digital utopia imagined by Sir Tim Berners Lee in the early 90s. Currently, most services, data, and patents related to web technologies belong to only a few companies, commonly referred to as GAFAM[^centralised-web-article]. This oligopoly is in part due to a phenomenon called the "vendor lock-in": users tend to stay with the same platform <!-- TODO That holds there data--> since it is too hard to switch to another one <!-- [lukas p1] -->. Furthermore, the centralization of web services and data has been a the heart of the latest internet scandal such as Cambridge Analytica or the worldwide NSA information gathering revealed by Edward Snowden[^guardian-dweb].
+Today's web might be far from the decentralized digital utopia imagined by Sir Tim Berners Lee in the early 90s. Currently, most services, data, and patents related to web technologies belong to only a few companies, commonly referred to as GAFAM[^centralised-web-article]. This oligopoly is in part due to a phenomenon called the "vendor lock-in": users tend to stay with the same platform <!-- TODO That holds there data--> since it is too hard to switch to another one<!-- [lukas p1] -->. Furthermore, the centralization of web services and data has been a the heart of the latest internet scandal such as Cambridge Analytica or the worldwide NSA information gathering revealed by Edward Snowden[^guardian-dweb].
 
 <!--  - 
  - privacy issue: 2013 leak from Edward Snowden has shown that with backdoors to a few companies, the US government could spy on a large part of the world population.
@@ -37,7 +36,7 @@ To tackle those problems, Tim Berners-Lee has started the Solid project in 2016 
 
 A Pod (Personal Online Datastore) is where Solid users store their data online. Like a Unix filesystem, the WAC (Web Access Control) controls who can read, write or delete files stored in a Pod. Each of these permissions is defined in `.acl` "Access Control List" files, hosted on the Pod itself[^solid-wikip].
 
-WebIDs are the standardization of a universal identifier used for authentification. More than replacing the traditional username, it is a full URI that, once dereferenced, can give more information on the end user. It usually has the form of:
+WebIDs are the standardization of a universal identifier used for authentification. More than replacing the traditional username, it is a fullUniform Resource Identifier ( URI ) that, once dereferenced, can give more information on the end-user. It usually has the form of:
 
 ```
 https://my-webid-host.net/my-username/profile/card#me
@@ -58,7 +57,7 @@ Those specifications are developed by the World Wide Web Consortium (W3C), an or
 
 ## Solid Community Server, an implementation of the Solid specifications
 
-The Community Solid Server is an open-source Solid Server - i.e. a  Pod and Identity Provider - that implements Solid Specification. It can also deliver WebIDs. Currently, only two implementations fulfill the Solid-specification: CSS and NSS ( Node Solid Server). CSS can be considered a new replacement for the legacy NSS behind `https://solidcommunity.net`, currently the most used solid server. CSS is a newborn software under active development: version 1.0 was released in the symbolic month of August 2021, exactly 30 years after the World Wide Web first webpage, and version 3.0 was released the 23 February 2022 [^css-release]. Inrupt financially support IDLab from Gent University (Belgium) to build the software <!-- TODO already said -->. It's copyrighted by Inrupt and IMEC research and development hub under the MIT license. Built in a modular fashion, it has been designed for researchers and developers who want to test Solid App and/or design new features and experience with Solid[^css-readme]. Such modularity is empowered using components.js, a dependency injection framework at the core of CSS.
+The Community Solid Server is an open-source Solid Server - i.e. a  Pod and Identity Provider - that implements Solid Specification. It can also deliver WebIDs. Currently, only two implementations fulfill the Solid-specification: CSS and NSS ( Node Solid Server). CSS can be considered a new replacement for the legacy NSS behind `https://solidcommunity.net`, currently the most used solid server. CSS is a newborn software under active development: version 1.0 was released in the symbolic month of August 2021, exactly 30 years after the World Wide Web first webpage, and version 3.0 was released the 23 February 2022 [^css-release]. Inrupt financially supports IDLab from Gent University (Belgium) to build the software<!-- TODO already said -->. It's copyrighted by Inrupt and IMEC research and development hub under the MIT license. Built in a modular fashion, it has been designed for researchers and developers who want to test Solid App and/or design new features and experiment with Solid[^css-readme]. Such modularity is operated using components.js, a dependency injection framework at the core of CSS.
 
 <!--     Four core contributors: Joachim Van Herwegen, Ruben Verborgh, Ruben Taelman, and Matthieu Bosquet.
     Copyrighted by Inrupt Inc. and imec and available under the MIT License
@@ -67,10 +66,10 @@ Abbreviated CSS for now (might change in the future for CSS).
 
 ## Component.js: a dependency injection behind CSS modularity
 
-Component.js is a javascript dependency injection developed by CSS authors. A Dependency Injection (DI) implements a form of inversion of control, a programming principle where part of a program receives its execution flow from a framework. Dependency injection will dynamically create (inject) the dependencies between the different components of a computer program. Therefore, the program execution flow is expressed not only through static code but also dynamically assigned during execution. In particular, components.js lets us describe the dependencies between CSS components from a JSON configuration file. Even if the CSS authors have written components.js mainly to answer CSS needs, it has been built as a general-purpose dependency injection framework and can be used for other software.
+Component.js is a javascript dependency injection developed by CSS authors. A Dependency Injection (DI) implements a form of inversion of control, a programming principle where part of a program receives its execution flow from a framework. Dependency injection will dynamically create (inject) the dependencies between the different components of a computer program. Therefore, the program execution flow is expressed not only through static code but also dynamically assigned during execution. In particular, components.js lets us describe the dependencies between CSS components from a JSON configuration file. A particular CSS configuration is called a *recipe*. Even if the CSS authors have written components.js mainly to answer CSS needs, it has been built as a general-purpose dependency injection framework and can be used for other software.
 <!-- also used by digita proxy -->
   
-The innovation of components.js, compared to other javascript DI frameworks such as `inversify` or `typedi`, is to be built around the concept of Linked Data. In other words, the configuration files leverage the power of the semantic web: each component can be uniquely and globally identified through a URI. Furthermore, having configuration files machine-readable and built under the same vocabulary and makes it easy to generate, parse, compare, or edit them in a script.
+The innovation of components.js, compared to other javascript DI frameworks such as `inversify` or `typedi`, is to be built around the concept of Linked Data. In other words, the configuration files leverage the power of the semantic web: each component can be uniquely and globally identified through a URI. Furthermore, having configuration files machine-readable and built under the same vocabulary makes it easy to generate, parse, compare, or edit them in a script.
 
 <!-- 
 TODO: - benefice of linked data config file
@@ -103,9 +102,9 @@ TODO: - benefice of linked data config file
  -->
 
 <!-- TODO add PaaS diagram illustration vs IaaS Saas -->
- CERN is primarily a high-energy physics laboratory. Counting 12,400 users from instititution from more than 70 countries [^cern-wiki], strong computing infrastructure is of paramount importance. To facilitate the host and deployment of web applications inside its computing environment, CERN has deployed a Platform-as-a-Service (PaaS) to its users.
+ CERN is primarily a high-energy physics laboratory. Counting 12,400 users from institutions from more than 70 countries [^cern-wiki], strong computing infrastructure is of paramount importance. To facilitate the host and deployment of web applications inside its computing environment, CERN has deployed a Platform-as-a-Service (PaaS) to its users.
   
-  PaaS is a cloud computing service meant for developers. Its goal is to simplify workload by offering the developer to quickly initiate, run and manage one or more web applications without worrying about the computing infrastructure part such as networking, storage, OS and others. [^wiki-paas] 
+  PaaS is a cloud computing service meant for developers. Its goal is to simplify workload by offering the developer to quickly initiate, run and manage one or more web applications without worrying about the computing infrastructure part such as networking, storage, OS, and others. [^wiki-paas] 
   
 OKD4 or Openshift 4 is Red Hat's PaaS solution. The community version used at CERN is free and open source under the Apache 2 license [^okd.io]. It is powered by other popular open-source technologies such as Docker and Kubernetes.
   
@@ -115,7 +114,7 @@ CERN's Openshift allows its developers to quickly deploy web applications with s
 
 
 ## Thesis' plan
-The main goal of this thesis is to investigate CSS by deploying a CSS instance inside CERN's infrastructure. First, we will explore the current solution for CSS regarding Single-Sign-On and User Interface integration. Next, we will describe a particular recipe we build for CERN and argue on our design choices. Subsequently, we will show the DevOps pipeline used to deploy our recipe to CERN's infrastructure. Finally, after explaining a potential security risk with Pods-hosted webpage, we will finish reviewing the software quality and open source dynamics. 
+The main goal of this thesis is to investigate CSS by deploying a CSS instance inside CERN's infrastructure. First, we will explore the current solution for CSS regarding Single-Sign-On and User Interface integration. Next, we will describe a particular recipe we build for CERN and discuss our design choices. Subsequently, we will show the DevOps pipeline used to deploy our recipe to CERN's infrastructure. Finally, after explaining a potential security risk with Pods-hosted webpage, we will finish reviewing the software quality and open source dynamics. 
 
 <!-- TODO: REDO AT THE END -->
 
