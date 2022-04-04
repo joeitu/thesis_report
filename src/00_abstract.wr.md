@@ -1,6 +1,3 @@
-
-\pagebreak
-
 Abstract {-}
 ========
 
@@ -8,7 +5,7 @@ Abstract {-}
 Solid, for **So**cial **Li**nked **D**ata, is a new web standard that gives users control over their online data. Developed by the inventor of the World Wide Web, Sir Tim Berners-Lee, it aims to decouple web applications from data. In a Solid environment, users own a Personal Online Datastore (Pod) and consume solid apps. A solid app is a zero-data web application connected to the user's Pod that reads or writes data on the user's Pod instead of its database.
 
 <!-- Problem/Gap -->
-CERN, the birthplace of the Web, is interested in Solid and has defined a project to investigate how Solid could be used inside CERN's infrastructure. Previously CERN has been using a third-party Solid server provider ( `solidcommunity.net` ) but is now interested in deploying its own server. A Solid server's goal is mainly to serve Pods and handle authentification through an Identity Provider ( IDP ). Community Solid Server ( CSS ), released in August 2021, is one of the first open-source Solid servers that implement the Solid specification [css readme]. However, by focusing on the server part, CSS is hardly usable on its own. In particular, it provides almost no user interface.
+CERN, the birthplace of the Web, is interested in Solid and has defined a project to investigate how Solid could be used inside CERN's infrastructure. Previously CERN has been using a third-party Solid server provider ( `solidcommunity.net` ) but is now interested in deploying its own server. A Solid server's goal is mainly to serve Pods and handle authentification through an Identity Provider ( IDP ). Community Solid Server ( CSS ), released in August 2021, is one of the first open-source Solid servers that implement the Solid specification. However, by focusing on the server part, CSS is hardly usable on its own. In particular, it provides almost no user interface.
 
 <!-- Contribution -->
 The main contribution of this thesis has been the deployment of a CSS instance into the CERN infrastructure. CSS is built primarily for researchers, developers that want to experiment with Solid servers. Therefore, it comes with minimalistic UI and a default configuration that is not designed in priority for end-users. However, it is highly configurable and extendable. 
@@ -42,8 +39,8 @@ Conclusion:
 -->
 
 
-\pagebreak
-
+\newpage
+\pagenumbering{gobble}
 
 
 

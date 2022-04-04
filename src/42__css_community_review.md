@@ -1,28 +1,26 @@
 
-## Open source community dynamics review
+## Open-source community dynamics review
 
 <!-- move licensing to CSS description -->
 
-CSS is a free and open-source software under MIT license, which means anyone with the necessary skills can contribute to the original project source code. Therefore, the community dynamics around the software greatly influence the software itself and the experience of developers working with it. This chapter will review the open-source quality of this software and, in particular, its community dynamics. After quickly talking about its licensing, we will analyze its community dynamics.
+CSS is a free and open-source software under an MIT license, which means anyone with the necessary skills can contribute to the original project source code. Therefore, the community dynamics around the software greatly influence the software itself and the experience of developers working with it. This chapter will review the open-source quality of this software and, in particular, its community dynamics. After quickly talking about its licensing, we will analyze its community dynamics.
 <!-- REVIEW IF STILL CORRECT -->
 
 ### MIT licensing
 
- The MIT license is one of the most popular permissive licenses<!-- [1] -->. A permissive licensing means little restrictions on how the software can be used, modified, and redistributed. In addition, it allows the software to have high license compatibility, meaning that it can easily be distributed with software under other licensing, including proprietary licenses.
+ The MIT license is one of the most popular permissive licenses<!-- [1] -->. A permissive licensing means few restrictions on how the software can be used, modified, and redistributed. In addition, it allows the software to have high license compatibility, meaning that it can easily be distributed with software under other licensing, including proprietary licenses.
 
 ### CSS open source community
 
-*Hypothesis*
-
-During the experience of this thesis, we had to interact daily with CSS' community. Those would include submitting issues and starting discussions on CSS' source code repository, chatting with the community on the Gitter channel, or Zoom meetings. Through personal experience interacting with CSS' community, we had good support from the community, but mainly from the core developers. Ergo, we will make the following hypothesis and try to gather metrics to validate them.
+During the experience of this thesis, we had to interact daily with CSS community. Those would include submitting issues and starting discussions on CSS' source code repository, chatting with the community on the Gitter channel, or Zoom meetings. Through personal experience interacting with CSS community, we had good support from the community, but mainly from the core developers. Ergo, we will make the following hypothesis and try to gather metrics to validate them.
 
    - For the moment, CSS is built mainly by core developers, and there is not so much contribution from the community
-   - Most of the tickets answer comes from core developers
-   - The core developers are dynamically working on the repo
-   - The developers are quickly answering Pull Requests ( PR ) and tickets
- <!-- (REWRITE THE ABOVE) -->
+   - Most of the tickets answers come from core developers
+   - Activity from the community is relatively small
 
-*Method*
+<!--    - The core developers are dynamically working on the repo
+   - The developers are quickly answering Pull Requests ( PR ) and tickets -->
+ <!-- (REWRITE THE ABOVE) -->
 
  To verify the former hypothesis, we build a series of scripts specially crafted for this chapter <!-- ( ADD REF ) -->. Those scripts take advantage of `mergestat`, an open-source tool to make SQL queries to a git repository that we mainly used to get data from CSS' Github repository in a JSON format. We also query Github API directly when needed. 
 
@@ -50,7 +48,7 @@ To interpret the gathered data correctly, we first need to define a few groups o
 From the data gathered, we extracted the following information:
 
 <!-- *dec 21 result* -->
- - 74% of the Pull Requests ( PR ) are made from the core-developers
+ - 74% of the Pull Requests ( PR ) are made by the core-developers
  - 27 PR made by different non-core developers, totaling 128 new PR ( 1/5 of total PRs)
  - 25% of the issues are left unanswered and in particular:
    - 10% of non-core developers left unanswered
