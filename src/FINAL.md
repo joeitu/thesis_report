@@ -10,6 +10,7 @@ TODO define recipe
 TODO define RDF
 
  -->
+\newpage
 
 # Context and terminology
 
@@ -34,12 +35,12 @@ Today's web might be far from the decentralized digital utopia imagined by Sir T
 
 ## Solid: Tim Berners-Lee proposal to Re-Decentralise the web
 
-To tackle those problems, Tim Berners-Lee has started the Solid project in 2016 as a mean to re-decentralize the web[@solid-wikip]. Solid take advantage of the Semantic Web (also known as Web 3.0 but not to be confused with web3), a new set of standards extending the current World Wide Web to make the internet's data machine-readable. It is made machine-readable through Linked Data, a new way of formatting structured data to ensure its integration, interpolation,  and interpretation by machines in the Semantic Web. Solid - sometimes stylized SoLiD - stands for **So**cial **Li**nked **D**ata. It aims to give back data control to internet users and improve their privacy online. Solid is not a technology in itself, but rather a set of specifications that allows decoupling of web applications' authentification, data, and app logic[@solid-spec-protocol] . The end goal is to give internet users complete control over their data[@solid-wikip] . However, the web needs a couple of new artifacts and vocabulary to allow this decoupling; the two most important are the Pod (decoupling data storage) and the Identity Provider (decoupling authentification).
+To tackle those problems, Tim Berners-Lee has started the Solid project in 2016 as a mean to re-decentralize the web[@solidAbout]. Solid take advantage of the Semantic Web (also known as Web 3.0 but not to be confused with web3), a new set of standards extending the current World Wide Web to make the internet's data machine-readable. It is made machine-readable through Linked Data, a new way of formatting structured data to ensure its integration, interpolation,  and interpretation by machines in the Semantic Web. Solid - sometimes stylized SoLiD - stands for **So**cial **Li**nked **D**ata. It aims to give back data control to internet users and improve their privacy online. Solid is not a technology in itself, but rather a set of specifications that allows decoupling of web applications' authentification, data, and app logic[@solid-spec-protocol] . The end goal is to give internet users complete control over their data[@solidAbout] . However, the web needs a couple of new artifacts and vocabulary to allow this decoupling; the two most important are the Pod (decoupling data storage) and the Identity Provider (decoupling authentification).
 
 
 <!-- TODO add zero data illu -->
 
-A Pod (Personal Online Datastore) is where Solid users store their data online. Like a Unix filesystem, the WAC (Web Access Control) controls who can read, write or delete files stored in a Pod. Each of these permissions is defined in `.acl` "Access Control List" files, hosted on the Pod itself[@solid-wikip].
+A Pod (Personal Online Datastore) is where Solid users store their data online. Like a Unix filesystem, the WAC (Web Access Control) controls who can read, write or delete files stored in a Pod. Each of these permissions is defined in `.acl` "Access Control List" files, hosted on the Pod itself[@solidSpec].
 
 WebIDs are the standardization of a universal identifier used for authentification. More than replacing the traditional username, it is a fullUniform Resource Identifier ( URI ) that, once dereferenced, can give more information on the end-user. It usually has the form of:
 
@@ -107,9 +108,9 @@ TODO: - benefice of linked data config file
  -->
 
 <!-- TODO add PaaS diagram illustration vs IaaS Saas -->
- CERN is primarily a high-energy physics laboratory. Counting 12,400 users from institutions from more than 70 countries [@cernWiki], strong computing infrastructure is of paramount importance. To facilitate the host and deployment of web applications inside its computing environment, CERN has deployed a Platform-as-a-Service (PaaS) to its users.
+ CERN is primarily a high-energy physics laboratory. Counting 12,400 users from institutions from more than 70 countries [@cernReport], strong computing infrastructure is of paramount importance. To facilitate the host and deployment of web applications inside its computing environment, CERN has deployed a Platform-as-a-Service (PaaS) to its users.
   
-  PaaS is a cloud computing service meant for developers. Its goal is to simplify workload by offering the developer to quickly initiate, run and manage one or more web applications without worrying about the computing infrastructure part such as networking, storage, OS, and others. [@wiki-paas] 
+  PaaS is a cloud computing service meant for developers. Its goal is to simplify workload by offering the developer to quickly initiate, run and manage one or more web applications without worrying about the computing infrastructure part such as networking, storage, OS, and others. [@paas-intro] 
   
 OKD4 or Openshift 4 is Red Hat's PaaS solution. The community version used at CERN is free and open source under the Apache 2 license [@okd.io]. It is powered by other popular open-source technologies such as Docker and Kubernetes.
   
@@ -123,6 +124,7 @@ The main goal of this thesis is to investigate CSS by deploying a CSS instance i
 
 <!-- TODO: REDO AT THE END -->
 
+\newpage
 
 # CSS current status
 
@@ -137,7 +139,7 @@ TODO CHECK Penny
  In this chapter, we discuss the integration of CSS with CERN's Single-Sign-On. After describing the challenges of this task and defining the main elements that compose it, we discuss and explain the chosen solution. 
 
 
-- Context
+*Context*
 
 Large organizations such as CERN, which usually contain a collection of web applications, tend to rely on Single Sign On ( SSO ) to allow them to have one login for all the different applications.
 
@@ -416,6 +418,7 @@ We choose not to integrate it as an internal UI for our CSS instance. Using a UI
  --><!-- TODO? talk about penny not totally working as internal app -->
 <!--TODO ADD transition to profile viewer -->
 
+\newpage
 
 # Building a CSS instance for CERN
 
@@ -781,17 +784,11 @@ The UI does not have any Pod management feature and should rely on Penny ( used 
 
 ### Implementation
 
-
 The component is implemented as a client-side javascript application to be integrated into CSS. It consists of one HTML, one javascript, and one Cascading Style Sheet file. 
 
 The app starts with the routing behavior to mimic the routing feature common to javascript frameworks. Then, based on the path of the current document URL, the app will display different representations, as shown in the flow chart \ref{profileViewerRoutingFlow}:
-  
-\
 
-![ Profile viewer routing flow \label{profileViewerRoutingFlow} ](./assets/viewer_flow.jpg){width=100% margin=auto }
 
-\
-  
  - On the root path, i.e., the index page of our CSS instance: we return a page that invites the user to create a new Pod, learn about solid, or read a user-manual made for CERN's user.
   
 \
@@ -814,6 +811,9 @@ The app starts with the routing behavior to mimic the routing feature common to 
 
 
 VCard elements are commonly readable by the public, but authorization is usually needed to edit them. Therefore, the profile viewer has two modes: the viewer mode, which displays the vCard information, and the editor mode. Editor mode needs a login and changes all the vCard elements into input fields, allowing users to edit them. A button `Save` also appears; saving will edit the profile document with the input value and return to the viewer mode. 
+
+![ Profile viewer routing flow \label{profileViewerRoutingFlow} ](./assets/viewer_flow.jpg){width=100% margin=auto }
+
 
 We submitted feature requests to prefill the OIDC issuer from Penny URL to facilitate the transition from the UI to Penny [@1e8682c69dffede3d2481fbbfb442fde]. The feature request got accepted, and the OIDC issuer can be prefilled with CERN's CSS instance. Therefore, our link to Penny will have the following form:
 
@@ -1059,6 +1059,7 @@ The profile viewer is not meant to be a usable app, but to facilitate the devlop
 -->
 
 
+\newpage
 
 # Phishing risk of Pod hosting HTML files
 
@@ -1169,6 +1170,7 @@ A less restrictive solution would be to create all users with defined username, 
  -->
 
 
+\newpage
 
 # CSS quality review
 
@@ -1451,11 +1453,20 @@ Even if one can argue that the web is facing a crisis on data and user privacy, 
 
 \pagebreak
 
+# Code repositories{-}
+
+\
+
 All the code made for this thesis can be found at:
-```
-https://github.com/joeitu/thesis-code
-```
+
+[https://github.com/joeitu/thesis-code](https://github.com/joeitu/thesis-code)
+
+\
+
 The report source code can be found at:
-```
-https://github.com/joeitu/thesis-report
-```
+
+[https://github.com/joeitu/thesis-report](https://github.com/joeitu/thesis-report)
+
+\pagebreak
+
+# Bibliography {-}
